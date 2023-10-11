@@ -1,6 +1,8 @@
 package com.example.jdbc_dao.repository;
 
 import com.example.jdbc_dao.dao.ProductDAO;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,18 +14,18 @@ import java.util.List;
 import static com.example.jdbc_dao.utils.UtilitySQL.read;
 
 @Repository
+@RequiredArgsConstructor
+public class ProductRepository implements ProductDAO {
 
-public class productRepository implements ProductDAO {
+    private final String scriptFindProduct = read("product_name.sql");
 
-    private String scriptFindProduct = read("product_name.sql");
 
-    @Autowired
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
     public List<String> getProductName(String name) {
-        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("name",name);
-        return namedParameterJdbcTemplate.queryForList(scriptFindProduct,sqlParameterSource, String.class);
+        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("name", name);
+        return namedParameterJdbcTemplate.queryForList(scriptFindProduct, sqlParameterSource, String.class);
     }
 
 }
