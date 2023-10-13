@@ -1,11 +1,9 @@
 package com.example.jdbc_dao.repository;
 
 import com.example.jdbc_dao.dao.ProductDAO;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 
@@ -19,13 +17,18 @@ public class ProductRepository implements ProductDAO {
 
     private final String scriptFindProduct = read("product_name.sql");
 
+    @PersistenceContext
+    private final EntityManager entityManager;
 
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+//    select o.product_name  from orders o where lower(customers.name) = lower(:name)
+//    select product_name from orders o join customers c on c.id = o.customer_id where lower(c.name) = lower(:name)
 
     @Override
     public List<String> getProductName(String name) {
-        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("name", name);
-        return namedParameterJdbcTemplate.queryForList(scriptFindProduct, sqlParameterSource, String.class);
+        String query = "select o.product_name  from orders o where lower(customers.name) = lower(:name)";
+        return entityManager.createQuery(query, String.class)
+                .setParameter("name", name)
+                .getResultList();
     }
 
 }

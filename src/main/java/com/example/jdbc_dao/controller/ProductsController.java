@@ -1,9 +1,8 @@
 package com.example.jdbc_dao.controller;
 
+import com.example.jdbc_dao.models.Orders;
 import com.example.jdbc_dao.service.ServiceProduct;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
