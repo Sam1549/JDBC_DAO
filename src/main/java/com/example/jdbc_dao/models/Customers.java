@@ -1,6 +1,7 @@
 package com.example.jdbc_dao.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "customers",schema = "public")
 @NoArgsConstructor
+@AllArgsConstructor
 public class Customers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
